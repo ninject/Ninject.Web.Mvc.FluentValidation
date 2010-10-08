@@ -1,0 +1,12 @@
+_ReSharper.*
+bin
+obj
+build
+dist
+*.suo
+*resharper*
+*.user
+~$*
+*.sln.cache
+web.config
+dbsettings.build
