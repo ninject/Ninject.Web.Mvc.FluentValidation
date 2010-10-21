@@ -1,12 +1,11 @@
 _ReSharper.*
+Bin
 bin
 obj
-build
 dist
+build
 *.suo
 *resharper*
 *.user
-~$*
-*.sln.cache
-web.config
-dbsettings.build
+/lib/Ninject/*.zip
+/lib/Ninject/*/**
