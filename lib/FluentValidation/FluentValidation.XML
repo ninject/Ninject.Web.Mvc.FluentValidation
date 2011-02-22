@@ -10,11 +10,37 @@
             </summary>
             <typeparam name="T">The type of the object being validated</typeparam>
         </member>
+        <member name="M:FluentValidation.IValidator.Validate(System.Object)">
+            <summary>
+            Validates the specified instance
+            </summary>
+            <param name="instance"></param>
+            <returns>A ValidationResult containing any validation failures</returns>
+        </member>
+        <member name="M:FluentValidation.IValidator.Validate(FluentValidation.ValidationContext)">
+            <summary>
+            Validates the specified instance.
+            </summary>
+            <param name="context">A ValidationContext</param>
+            <returns>A ValidationResult object containy any validation failures.</returns>
+        </member>
         <member name="M:FluentValidation.IValidator.CreateDescriptor">
             <summary>
             Creates a hook to access various meta data properties
             </summary>
             <returns>A IValidatorDescriptor object which contains methods to access metadata</returns>
+        </member>
+        <member name="M:FluentValidation.IValidator.CanValidateInstancesOfType(System.Type)">
+            <summary>
+            Checks to see whether the validator can validate objects of the specified type
+            </summary>
+        </member>
+        <member name="M:FluentValidation.IValidator`1.Validate(`0)">
+            <summary>
+            Validates the specified instance.
+            </summary>
+            <param name="instance">The instance to validate</param>
+            <returns>A ValidationResult object containing any validation failures.</returns>
         </member>
         <member name="M:FluentValidation.IValidator`1.Validate(FluentValidation.ValidationContext{`0})">
             <summary>
@@ -22,6 +48,11 @@
             </summary>
             <param name="context">A ValidationContext</param>
             <returns>A ValidationResult object containing any validation failures.</returns>
+        </member>
+        <member name="P:FluentValidation.IValidator`1.CascadeMode">
+            <summary>
+            Sets the cascade mode for all rules within this validator.
+            </summary>
         </member>
         <member name="M:FluentValidation.AbstractValidator`1.Validate(`0)">
             <summary>
@@ -64,10 +95,34 @@
             </summary>
             <param name="customValidator">A lambda that executes custom validation rules</param>
         </member>
+        <member name="P:FluentValidation.AbstractValidator`1.CascadeMode">
+            <summary>
+            Sets the cascade mode for all rules within this validator.
+            </summary>
+        </member>
+        <member name="T:FluentValidation.AssemblyScanner">
+            <summary>
+            Class that can be used to find all the validators from a collection of types.
+            </summary>
+        </member>
+        <member name="M:FluentValidation.AssemblyScanner.FindValidatorsInAssembly(System.Reflection.Assembly)">
+            <summary>
+            Finds all the validators in the specified assembly.
+            </summary>
+        </member>
+        <member name="M:FluentValidation.AssemblyScanner.FindValidatorsInAssemblyContaining``1">
+            <summary>
+            Finds all the validators in the assembly containing the specified type.
+            </summary>
+        </member>
+        <member name="M:FluentValidation.AssemblyScanner.ForEach(System.Action{FluentValidation.AssemblyScanner.AssemblyScanResult})">
+            <summary>
+            Performs the specified action to all of the assembly scan results.
+            </summary>
+        </member>
         <member name="T:FluentValidation.Attributes.AttributedValidatorFactory">
             <summary>
-            Implementation of IValidatorFactory that looks for [Validator] attributes on the specified type in order to provide the validator instance.
-            Note that the validators are created by calling Activator.CreateInstance and the created validators are not cached, so there are potential performance implications using this approach.
+            Implementation of IValidatorFactory that looks for ValidatorAttribute instances on the specified type in order to provide the validator instance.
             </summary>
         </member>
         <member name="T:FluentValidation.Attributes.ValidatorAttribute">
@@ -75,33 +130,9 @@
             Validator attribute to define the class that will describe the Validation rules
             </summary>
         </member>
-        <member name="T:FluentValidation.Validators.IPropertyValidator">
-            <summary>
-            A custom property validator.
-            This interface should not be implemented directly in your code as it is subject to change.
-            Please inherit from <see cref="T:FluentValidation.Validators.PropertyValidator">PropertyValidator</see> instead.
-            </summary>
-        </member>
-        <member name="M:FluentValidation.Validators.PropertyValidator.CreateValidationError(FluentValidation.Validators.PropertyValidatorContext)">
-            <summary>
-            Creates an error validation result for this validator.
-            </summary>
-            <param name="context">The validator context</param>
-            <returns>Returns an error validation result.</returns>
-        </member>
-        <member name="T:FluentValidation.DefaultRuleBuilderExtensions">
-            <summary>
-            Default extensions for IRuleBuilder
-            </summary>
-        </member>
         <member name="T:FluentValidation.DefaultValidatorExtensions">
             <summary>
             Extension methods that provide the default set of validators.
-            </summary>
-        </member>
-        <member name="M:FluentValidation.DefaultValidatorExtensions.SetValidator``3(FluentValidation.IRuleBuilder{``0,``1},FluentValidation.IValidator{``2})">
-            <summary>
-            Specifies that a particular validator should be used to validate a collection of nested classes. 
             </summary>
         </member>
         <member name="M:FluentValidation.DefaultValidatorExtensions.NotNull``2(FluentValidation.IRuleBuilder{``0,``1})">
@@ -415,6 +446,13 @@
             <param name="to">The highest allowed value</param>
             <returns></returns>
         </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.Cascade``2(FluentValidation.IRuleBuilderInitial{``0,``1},FluentValidation.CascadeMode)">
+            <summary>
+            Specifies the cascade mode for failures. 
+            If set to 'Stop' then execution of the rule will stop once the first validator in the chain fails.
+            If set to 'Continue' then all validators in the chain will execute regardless of failures.
+            </summary>
+        </member>
         <member name="M:FluentValidation.DefaultValidatorOptions.OnAnyFailure``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Action{``0})">
             <summary>
             Specifies a custom action to be invoked when the validator fails. 
@@ -459,6 +497,35 @@
             <param name="resourceSelector">The resource to use as an expression, eg () => Messages.MyResource</param>
             <returns></returns>
         </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.WithLocalizedMessage``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Linq.Expressions.Expression{System.Func{System.String}},FluentValidation.Resources.IResourceAccessorBuilder)">
+            <summary>
+            Specifies a custom error message resource to use when validation fails.
+            </summary>
+            <param name="rule">The current rule</param>
+            <param name="resourceSelector">The resource to use as an expression, eg () => Messages.MyResource</param>
+            <param name="resourceAccessorBuilder">The resource accessor builder to use. </param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.When``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Func{``0,System.Boolean},FluentValidation.ApplyConditionTo)">
+            <summary>
+            Specifies a condition limiting when the validator should run. 
+            The validator will only be executed if the result of the lambda returns true.
+            </summary>
+            <param name="rule">The current rule</param>
+            <param name="predicate">A lambda expression that specifies a condition for when the validator should run</param>
+            <param name="applyConditionTo">Whether the condition should be applied to the current rule or all rules in the chain</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.Unless``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Func{``0,System.Boolean},FluentValidation.ApplyConditionTo)">
+            <summary>
+            Specifies a condition limiting when the validator should not run. 
+            The validator will only be executed if the result of the lambda returns false.
+            </summary>
+            <param name="rule">The current rule</param>
+            <param name="predicate">A lambda expression that specifies a condition for when the validator should not run</param>
+            <param name="applyConditionTo">Whether the condition should be applied to the current rule or all rules in the chain</param>
+            <returns></returns>
+        </member>
         <member name="M:FluentValidation.DefaultValidatorOptions.When``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Func{``0,System.Boolean})">
             <summary>
             Specifies a condition limiting when the validator should run. 
@@ -485,9 +552,34 @@
             <param name="overridePropertyName">The property name to use</param>
             <returns></returns>
         </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.WithLocalizedName``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Linq.Expressions.Expression{System.Func{System.String}})">
+            <summary>
+            Specifies a localized name for the error message. 
+            </summary>
+            <param name="rule">The current rule</param>
+            <param name="resourceSelector">The resource to use as an expression, eg () => Messages.MyResource</param>
+        </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.WithLocalizedName``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Linq.Expressions.Expression{System.Func{System.String}},FluentValidation.Resources.IResourceAccessorBuilder)">
+            <summary>
+            Specifies a localized name for the error message. 
+            </summary>
+            <param name="rule">The current rule</param>
+            <param name="resourceSelector">The resource to use as an expression, eg () => Messages.MyResource</param>
+            <param name="resourceAccessorBuilder">Resource accessor builder to use</param>
+        </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.OverridePropertyName``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.String)">
+            <summary>
+            Overrides the name of the property associated with this rule.
+            NOTE: This is a considered to be an advanced feature. 99% of the time that you use this, you actually meant to use WithName.
+            </summary>
+            <param name="rule">The current rule</param>
+            <param name="propertyName">The property name to use</param>
+            <returns></returns>
+        </member>
         <member name="M:FluentValidation.DefaultValidatorOptions.WithPropertyName``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.String)">
             <summary>
-            Specifies a custom property name.
+            Overrides the name of the property associated with this rule.
+            NOTE: This is a considered to be an advanced feature. 99% of the time that you use this, you actually meant to use WithName.
             </summary>
             <param name="rule">The current rule</param>
             <param name="propertyName">The property name to use</param>
@@ -528,6 +620,14 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="M:FluentValidation.IValidationRule.Validate(FluentValidation.ValidationContext)">
+            <summary>
+            Performs validation using a validation context and returns a collection of Validation Failures.
+            </summary>
+            <param name="instance">The instance to validate</param>
+            <param name="context">Validation Context</param>
+            <returns>A collection of validation failures</returns>
+        </member>
         <member name="M:FluentValidation.IValidationRule`1.Validate(FluentValidation.ValidationContext{`0})">
             <summary>
             Performs validation using a validation context and returns a collection of Validation Failures.
@@ -545,6 +645,11 @@
             <param name="valueToCompare">The value being compared</param>
             <returns></returns>
         </member>
+        <member name="M:FluentValidation.Internal.Extensions.InferPropertyValidatorForChildValidator``1(FluentValidation.Internal.PropertyRule{``0},FluentValidation.IValidator)">
+            <summary>
+            Based on a child validator and a propery rule, infers whether the validator should be wrapped in a ChildValidatorAdaptor or a CollectionValidatorAdaptor
+            </summary>
+        </member>
         <member name="T:FluentValidation.Internal.IConfigurable`2">
             <summary>
             Represents an object that is configurable.
@@ -559,16 +664,25 @@
             <param name="configurator">Action to configure the object.</param>
             <returns></returns>
         </member>
-        <member name="P:FluentValidation.Internal.PropertyModel`2.PropertyName">
+        <member name="T:FluentValidation.Internal.InstanceCache">
             <summary>
-            Returns the property name for the property being validated.
-            Returns null if it is not a property being validated (eg a method call)
+            Thread safe instance cache.
             </summary>
         </member>
-        <member name="T:FluentValidation.Internal.SimpleRuleBuilder`1">
+        <member name="M:FluentValidation.Internal.InstanceCache.GetOrCreateInstance(System.Type)">
             <summary>
-            A simple implementation of IRuleBuilder that just holds a single validation rule.
+            Gets or creates an instance using Activator.CreateInstance
             </summary>
+            <param name="type">The type to instantiate</param>
+            <returns>The instantiated object</returns>
+        </member>
+        <member name="M:FluentValidation.Internal.InstanceCache.GetOrCreateInstance(System.Type,System.Func{System.Type,System.Object})">
+            <summary>
+            Gets or creates an instance using a custom factory
+            </summary>
+            <param name="type">The type to instantiate</param>
+            <param name="factory">The custom factory</param>
+            <returns>The instantiated object</returns>
         </member>
         <member name="T:FluentValidation.Internal.MessageFormatter">
             <summary>
@@ -639,19 +753,106 @@
             <param name="parentChain">The parent chain to compare</param>
             <returns>True if the current chain is the child of the other chain, otherwise false</returns>
         </member>
-        <member name="T:FluentValidation.Internal.PropertyRule`2">
+        <member name="P:FluentValidation.Internal.PropertyRule.PropertyName">
             <summary>
-            Defines a validation rule for a property.
+            Returns the property name for the property being validated.
+            Returns null if it is not a property being validated (eg a method call)
             </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="TProperty"></typeparam>
         </member>
-        <member name="M:FluentValidation.Internal.PropertyRule`2.Validate(FluentValidation.ValidationContext{`0})">
+        <member name="T:FluentValidation.Resources.IStringSource">
             <summary>
-            Executes the validator associated with this rule.
+            Provides error message templates
             </summary>
-            <param name="instance">The object to validate</param>
-            <returns>Will return a <see cref="T:FluentValidation.Results.ValidationFailure">ValidationFailure</see> if validation fails, otherwise null.</returns>
+        </member>
+        <member name="M:FluentValidation.Resources.IStringSource.GetString">
+            <summary>
+            Construct the error message template
+            </summary>
+            <returns>Error message template</returns>
+        </member>
+        <member name="P:FluentValidation.Resources.IStringSource.ResourceName">
+            <summary>
+            The name of the resource if localized.
+            </summary>
+        </member>
+        <member name="P:FluentValidation.Resources.IStringSource.ResourceType">
+            <summary>
+            The type of the resource provider if localized.
+            </summary>
+        </member>
+        <member name="T:FluentValidation.Resources.IResourceAccessorBuilder">
+            <summary>
+            Builds a delegate for retrieving a localised resource from a resource type and property name.
+            </summary>
+        </member>
+        <member name="T:FluentValidation.Resources.StaticResourceAccessorBuilder">
+            <summary>
+            Builds a delegate for retrieving a localised resource from a resource type and property name.
+            </summary>
+        </member>
+        <member name="T:FluentValidation.Resources.LocalizedStringSource">
+            <summary>
+            Represents a localized string.
+            </summary>
+        </member>
+        <member name="M:FluentValidation.Resources.LocalizedStringSource.#ctor(System.Type,System.String,FluentValidation.Resources.IResourceAccessorBuilder)">
+            <summary>
+            Creates a new instance of the LocalizedErrorMessageSource class using the specified resource name and resource type.
+            </summary>
+            <param name="resourceType">The resource type</param>
+            <param name="resourceName">The resource name</param>
+            <param name="resourceAccessorBuilder">Strategy used to construct the resource accessor</param>
+        </member>
+        <member name="M:FluentValidation.Resources.LocalizedStringSource.CreateFromExpression(System.Linq.Expressions.Expression{System.Func{System.String}},FluentValidation.Resources.IResourceAccessorBuilder)">
+            <summary>
+            Creates an IErrorMessageSource from an expression: () => MyResources.SomeResourceName
+            </summary>
+            <param name="expression">The expression </param>
+            <param name="resourceProviderSelectionStrategy">Strategy used to construct the resource accessor</param>
+            <returns>Error message source</returns>
+        </member>
+        <member name="M:FluentValidation.Resources.LocalizedStringSource.GetString">
+            <summary>
+            Construct the error message template
+            </summary>
+            <returns>Error message template</returns>
+        </member>
+        <member name="P:FluentValidation.Resources.LocalizedStringSource.ResourceName">
+            <summary>
+            The name of the resource if localized.
+            </summary>
+        </member>
+        <member name="P:FluentValidation.Resources.LocalizedStringSource.ResourceType">
+            <summary>
+            The type of the resource provider if localized.
+            </summary>
+        </member>
+        <member name="T:FluentValidation.Resources.StaticStringSource">
+            <summary>
+            Represents a static string.
+            </summary>
+        </member>
+        <member name="M:FluentValidation.Resources.StaticStringSource.#ctor(System.String)">
+            <summary>
+            Creates a new StringErrorMessageSource using the specified error message as the error template.
+            </summary>
+            <param name="message">The error message template.</param>
+        </member>
+        <member name="M:FluentValidation.Resources.StaticStringSource.GetString">
+            <summary>
+            Construct the error message template
+            </summary>
+            <returns>Error message template</returns>
+        </member>
+        <member name="P:FluentValidation.Resources.StaticStringSource.ResourceName">
+            <summary>
+            The name of the resource if localized.
+            </summary>
+        </member>
+        <member name="P:FluentValidation.Resources.StaticStringSource.ResourceType">
+            <summary>
+            The type of the resource provider if localized.
+            </summary>
         </member>
         <member name="T:FluentValidation.Resources.Messages">
             <summary>
@@ -765,7 +966,7 @@
             <param name="validator">The validator to set</param>
             <returns></returns>
         </member>
-        <member name="M:FluentValidation.IRuleBuilder`2.SetValidator(FluentValidation.IValidator{`1})">
+        <member name="M:FluentValidation.IRuleBuilder`2.SetValidator(FluentValidation.IValidator)">
             <summary>
             Associates an instance of IValidator with the current property rule.
             </summary>
@@ -785,11 +986,10 @@
             <typeparam name="T">Type of object being validated</typeparam>
             <typeparam name="TProperty">Type of property being validated</typeparam>
         </member>
-        <member name="M:FluentValidation.Internal.RuleBuilder`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+        <member name="M:FluentValidation.Internal.RuleBuilder`2.#ctor(FluentValidation.Internal.PropertyRule{`0})">
             <summary>
             Creates a new instance of the <see cref="T:FluentValidation.Internal.RuleBuilder`2">RuleBuilder</see> class.
             </summary>
-            <param name="expression">Property expression used to initialise the rule builder.</param>
         </member>
         <member name="M:FluentValidation.Internal.RuleBuilder`2.SetValidator(FluentValidation.Validators.IPropertyValidator)">
             <summary>
@@ -798,23 +998,30 @@
             <param name="validator">The validator to set</param>
             <returns></returns>
         </member>
-        <member name="M:FluentValidation.Internal.RuleBuilder`2.SetValidator(FluentValidation.IValidator{`1})">
+        <member name="M:FluentValidation.Internal.RuleBuilder`2.SetValidator(FluentValidation.IValidator)">
             <summary>
             Sets the validator associated with the rule. Use with complex properties where an IValidator instance is already declared for the property type.
             </summary>
             <param name="validator">The validator to set</param>
         </member>
-        <member name="M:FluentValidation.Internal.RuleBuilder`2.FluentValidation#Internal#IFluentInterface#GetType">
-            <summary>
-            Builds a validation rule and constructs a validator.
-            </summary>
-            <typeparam name="T">Type of object being validated</typeparam>
-            <typeparam name="TProperty">Type of property being validated</typeparam>
-        </member>
         <member name="T:FluentValidation.ValidatorDescriptor`1">
             <summary>
             Used for providing metadata about a validator.
             </summary>
+        </member>
+        <member name="T:FluentValidation.Validators.IPropertyValidator">
+            <summary>
+            A custom property validator.
+            This interface should not be implemented directly in your code as it is subject to change.
+            Please inherit from <see cref="T:FluentValidation.Validators.PropertyValidator">PropertyValidator</see> instead.
+            </summary>
+        </member>
+        <member name="M:FluentValidation.Validators.PropertyValidator.CreateValidationError(FluentValidation.Validators.PropertyValidatorContext)">
+            <summary>
+            Creates an error validation result for this validator.
+            </summary>
+            <param name="context">The validator context</param>
+            <returns>Returns an error validation result.</returns>
         </member>
     </members>
 </doc>

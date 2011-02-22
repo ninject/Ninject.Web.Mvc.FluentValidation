@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Ninject.Web.Mvc.FluentValidation</id>
+    <version></version>
+    <authors>Ninject Project Contributors</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+	<licenseUrl>https://github.com/ninject/ninject/raw/master/LICENSE.txt</licenseUrl>
+    <description>Fluent validation extension for Ninject.Web.Mvc</description>
+    <summary></summary>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="Ninject" version="" />
+      <dependency id="FluentValidation" version="2.0.0.0" />
+    </dependencies> 
+  </metadata>
+</package>

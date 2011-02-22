@@ -7,7 +7,7 @@
 	<property name="product.description" value="Mvc Fluent Validation kernel extension for Ninject" overwrite="false"/>
 	<property name="product.platforms" value="net-3.5,net-4.0,mono-2.0"  overwrite="false"/>
 	<property name="product.buildserverPlatforms" value="net-3.5,net-4.0,mono-2.0"  overwrite="false"/>
-	<property name="dependencies" value="Ninject,Ninject.Web.Mvc"  overwrite="false"/>
+	<property name="dependencies" value="Ninject"  overwrite="false"/>
 
 	<include buildfile="Ninject.include" />
 	<target name="all" depends="core"/>
