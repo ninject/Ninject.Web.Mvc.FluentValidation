@@ -7,7 +7,6 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 	<licenseUrl>https://github.com/ninject/ninject/raw/master/LICENSE.txt</licenseUrl>
     <description>Fluent validation extension for Ninject.Web.Mvc</description>
-    <summary></summary>
     <language>en-US</language>
 	<tags>Ninject ioc di web mvc</tags>
 	<iconUrl>https://github.com/ninject/ninject/raw/master/logos/Ninject-Logo32.png</iconUrl>
