@@ -4,15 +4,15 @@ To use follow these steps:
 
 1. Wire up Asp.net MVC to use the NinjectValidatorFactory:
 
-<code>
+```C#
 NinjectValidatorFactory ninjectValidatorFactory = new NinjectValidatorFactory(ninjectKernel);
 ModelValidatorProviders.Providers.Add(new FluentValidationModelValidatorProvider(ninjectValidatorFactory));
 DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
-</code>
+```
 
 2. Add a module to your project that will bind all of your validators:
 
-<code>
+```C#
 public class FluentValidatorModule : NinjectModule
 {
 	public override void Load()
@@ -21,4 +21,4 @@ public class FluentValidatorModule : NinjectModule
 			.ForEach(match => Bind(match.InterfaceType).To(match.ValidatorType));
     }
 }
-</code>
+```
