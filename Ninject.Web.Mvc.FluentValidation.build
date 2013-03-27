@@ -5,8 +5,8 @@
 	<property name="product.company" value="SNinject Project Contributors" overwrite="false"/>
 	<property name="product.duration" value="2010-2012" overwrite="false"/>
 	<property name="product.description" value="Mvc Fluent Validation kernel extension for Ninject" overwrite="false"/>
-	<property name="product.platforms" value="net-3.5,net-4.0,net-4.5,mono-2.0,mono-3.5,mono-4.0"  overwrite="false"/>
-	<property name="product.buildserverPlatforms" value="net-3.5,net-4.0,mono-2.0,mono-3.5,mono-4.0"  overwrite="false"/>
+	<property name="product.platforms" value="net-4.0,net-4.5,mono-4.0"  overwrite="false"/>
+	<property name="product.buildserverPlatforms" value="net-3.5,net-4.0,mono-4.0"  overwrite="false"/>
 	<property name="dependencies" value="Ninject"  overwrite="false"/>
 
 	<include buildfile="Ninject.include" />
@@ -25,6 +25,7 @@
 				<include name="System.dll"/>
 				<include name="System.Core.dll"/>
 				<include name="System.Web.dll" unless="${build.platform == 'silverlight-2.0'}"/>
+				<include name="${path.packages}/FluentValidation-Signed.*/lib/net40/FluentValidation.dll"/>
 				<include name="${path.lib}/FluentValidation/FluentValidation.dll"/>
 				<include name="${path.lib}/Ninject/${build.platform}/Ninject.dll"/>
 			</references>
